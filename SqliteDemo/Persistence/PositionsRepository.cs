@@ -21,7 +21,7 @@ namespace SqliteDemo.Persistence
 
         public bool IsSyncEnabled { get; set; }
 
-        public void InitializeAsync()
+        public Task InitializeAsync()
         {
             try
             {
@@ -40,7 +40,7 @@ namespace SqliteDemo.Persistence
             {
                 Console.WriteLine("InitializeAsync" + exception + "Failed while creating PositionsRepository");
             }
-
+            return Task.CompletedTask;
         }
 
         public Task StoreAsync(PersistedFill fill)
@@ -96,6 +96,38 @@ namespace SqliteDemo.Persistence
             {
                 ctx.Fills.Add(fill);
             }
+        }
+
+        public Task StoreAsync(PersistedAccount account)
+        {
+            if (!IsSyncEnabled)
+            {
+                return Task.CompletedTask;
+            }
+            var StoreAsyncDelegate = delegate (DatabaseContext ctx)
+            {
+                int id = account.Id;
+                if (id != 0)
+                {
+                    PersistedAccount persistedAccount = ctx.Accounts.FirstOrDefault((PersistedAccount _) => _.Id == id);
+                    if (!(persistedAccount != null))
+                    {
+                        ctx.Accounts.Add(account);
+                    }
+                    else
+                    {
+                        persistedAccount.Name = account.Name;
+                        persistedAccount.Type = account.Type;
+                    }
+                }
+                else
+                {
+                    ctx.Accounts.Add(account);
+                }
+                ctx.SaveChanges();
+            };
+            StoreAsyncDelegate(_databaseContext);
+            return Task.CompletedTask;
         }
 
         private void EnsureDirectoryExists(string dbDirectoryPath)

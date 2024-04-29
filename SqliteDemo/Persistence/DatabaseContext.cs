@@ -9,6 +9,8 @@ namespace SqliteDemo.Persistence
     {
         private readonly DbConnection _connection;
 
+        public DbSet<PersistedAccount> Accounts { get; set; }
+
         public DbSet<PersistedFill> Fills { get; set; }
 
         public DatabaseContext(DbConnection connection, bool ownsConnection = true)

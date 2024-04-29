@@ -27,15 +27,22 @@ namespace SqliteDemo
             Console.WriteLine("Hello");
             var p = new PositionsRepository();
             p.InitializeAsync();
-            p.StoreAsync(new Persistence.Entities.PersistedFill()
-            {
-                AccountId = 1,
 
-                ExchangeId = "SampleDealId like 12345678",
-                ExchangeOrderId = "SampleOrderId like 87654321",
-                AssetPath = "FORTS/Futures/",
-                InstrumentPath = "SiH4",
-                StrategyName = "default",
+            //p.StoreAsync(new Persistence.Entities.PersistedFill()
+            //{
+            //    AccountId = 1,
+
+            //    ExchangeId = "SampleDealId like 12345678",
+            //    ExchangeOrderId = "SampleOrderId like 87654321",
+            //    AssetPath = "FORTS/Futures/",
+            //    InstrumentPath = "SiH4",
+            //    StrategyName = "default",
+            //});
+            p.StoreAsync(new Persistence.Entities.PersistedAccount()
+            {
+                Id = 1,
+                Name = "My First Account FN12345",
+                Type = Persistence.Entities.PersistedAccountType.Trade,
             });
         }
     }
