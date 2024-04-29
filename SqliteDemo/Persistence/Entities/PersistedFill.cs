@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SqliteDemo.Persistence.Data;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SqliteDemo.Persistence.Entities
 {
-    public class PersistedFill : IEquatable<PersistedFill>
+    public class PersistedFill : PersistedEntity, IEquatable<PersistedFill>
     {
         public int AccountId { get; set; }
 
@@ -21,7 +22,7 @@ namespace SqliteDemo.Persistence.Entities
 
         public string InstrumentPath { get; set; }
 
-        public string StrategyName { get; set; }
+        public string? StrategyName { get; set; }
 
         public decimal Price { get; set; }
 

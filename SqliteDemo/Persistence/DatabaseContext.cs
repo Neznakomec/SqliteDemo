@@ -3,7 +3,7 @@ using SqliteDemo.Persistence.Entities;
 using System.Data;
 using System.Data.Common;
 
-namespace SqliteDemo
+namespace SqliteDemo.Persistence
 {
     public sealed class DatabaseContext : DbContext
     {
@@ -14,10 +14,17 @@ namespace SqliteDemo
         public DatabaseContext(DbConnection connection, bool ownsConnection = true)
         {
             _connection = connection;
+            Initialize();
         }
 
         public DatabaseContext()
         {
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)

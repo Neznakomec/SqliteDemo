@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using SqliteDemo.Persistence.Entities;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,6 +16,8 @@ namespace SqliteDemo.Persistence
         private const string DbFileName = "positions.db";
 
         private SqliteConnection _connection;
+
+        private DatabaseContext _databaseContext;
 
         public bool IsSyncEnabled { get; set; }
 
@@ -40,6 +43,61 @@ namespace SqliteDemo.Persistence
 
         }
 
+        public Task StoreAsync(PersistedFill fill)
+        {
+            if (IsSyncEnabled)
+            {
+                var StoreAsyncDelegate = delegate (DatabaseContext ctx)
+                {
+                    if (fill.AccountId == 0 && fill.Account == null)
+                    {
+                        throw new Exception("Unable to store fill because it is not linked to an account");
+                    }
+                    try
+                    {
+                        StoreImplAsync(fill, ctx);
+                        ctx.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("StoreAsync" + $"StoreAsync(PersistedFill) failed.\nFill = {fill}\nException={ex.Message}\n{ex.StackTrace}");
+                        throw;
+                    }
+                };
+
+                StoreAsyncDelegate(_databaseContext);
+            }
+            return Task.CompletedTask;
+        }
+
+        private static void StoreImplAsync(PersistedFill fill, DatabaseContext ctx)
+        {
+            int id = fill.Id;
+            if (id == 0)
+            {
+                ctx.Fills.Add(fill);
+                return;
+            }
+            PersistedFill persistedFill = ctx.Fills.FirstOrDefault((PersistedFill _) => _.Id == id);
+            if (persistedFill != null)
+            {
+                persistedFill.AccountId = fill.AccountId;
+                persistedFill.ExchangeId = fill.ExchangeId;
+                persistedFill.ExchangeOrderId = fill.ExchangeOrderId;
+                persistedFill.Timestamp = fill.Timestamp;
+                persistedFill.AssetPath = fill.AssetPath;
+                persistedFill.InstrumentPath = fill.InstrumentPath;
+                persistedFill.StrategyName = fill.StrategyName;
+                persistedFill.Price = fill.Price;
+                persistedFill.Quantity = fill.Quantity;
+                persistedFill.Type = fill.Type;
+            }
+            else
+            {
+                ctx.Fills.Add(fill);
+            }
+        }
+
         private void EnsureDirectoryExists(string dbDirectoryPath)
         {
             if (!Directory.Exists(dbDirectoryPath))
@@ -59,7 +117,12 @@ namespace SqliteDemo.Persistence
 
         private DatabaseContext CreateContext()
         {
-            return new DatabaseContext(_connection);
+            if (_databaseContext == null)
+            {
+                _databaseContext = new DatabaseContext(_connection);
+            }
+
+            return _databaseContext;
         }
     }
 }
