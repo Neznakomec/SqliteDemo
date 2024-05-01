@@ -9,7 +9,9 @@ namespace SqliteDemo.Persistence.Entities
     public enum PersistedAccountType
     {
         Undefined = 0,
+        // виртуальный счет с виртуальными сделками
         Virtual = 1,
+        // реальный или демо счет
         Trade = 2
     }
 }
