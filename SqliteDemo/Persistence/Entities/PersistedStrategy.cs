@@ -17,7 +17,7 @@ namespace SqliteDemo.Persistence.Entities
         public string AssetPath { get; set; } = string.Empty;
 
 
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         public PersistedAccount Account { get; set; }
     }

@@ -45,6 +45,10 @@ namespace SqliteDemo
             p.StoreAsync(new Persistence.Entities.PersistedStrategy()
             {
                 AccountId = 1,
+                Id = 1,
+                Name = "default",
+                AssetPath = "FORTS/Futures/Si",
+
             });
             //p.StoreAsync(new Persistence.Entities.PersistedFill()
             //{
@@ -52,7 +56,7 @@ namespace SqliteDemo
 
             //    ExchangeId = "SampleDealId like 12345678",
             //    ExchangeOrderId = "SampleOrderId like 87654321",
-            //    AssetPath = "FORTS/Futures/",
+            //    AssetPath = "FORTS/Futures/Si",
             //    InstrumentPath = "SiH4",
             //    StrategyName = "default",
             //});
