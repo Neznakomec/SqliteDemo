@@ -33,11 +33,11 @@ namespace SqliteDemo.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     AccountId = table.Column<int>(type: "INTEGER", nullable: false),
                     ExchangeId = table.Column<string>(type: "TEXT", nullable: false),
-                    ExchangeOrderId = table.Column<string>(type: "TEXT", nullable: false),
+                    ExchangeOrderId = table.Column<string>(type: "TEXT", nullable: true),
                     Timestamp = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Asset = table.Column<string>(type: "TEXT", nullable: false),
                     Instrument = table.Column<string>(type: "TEXT", nullable: false),
-                    Strategy = table.Column<string>(type: "TEXT", nullable: false),
+                    Strategy = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<decimal>(type: "TEXT", nullable: false),
                     Quantity = table.Column<int>(type: "INTEGER", nullable: false),
                     Type = table.Column<int>(type: "INTEGER", nullable: false)
@@ -62,7 +62,7 @@ namespace SqliteDemo.Migrations
                     AccountId = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Asset = table.Column<string>(type: "TEXT", nullable: false),
-                    Comment = table.Column<string>(type: "TEXT", nullable: false)
+                    Comment = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

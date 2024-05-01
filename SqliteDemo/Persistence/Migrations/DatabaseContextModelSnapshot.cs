@@ -62,7 +62,6 @@ namespace SqliteDemo.Migrations
                         .IsFixedLength(false);
 
                     b.Property<string>("ExchangeOrderId")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("ExchangeOrderId")
                         .IsFixedLength(false);
@@ -82,7 +81,6 @@ namespace SqliteDemo.Migrations
                         .HasColumnName("Quantity");
 
                     b.Property<string>("StrategyName")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("Strategy")
                         .IsFixedLength(false);
@@ -118,7 +116,6 @@ namespace SqliteDemo.Migrations
                         .IsFixedLength(false);
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("Comment")
                         .IsFixedLength(false);

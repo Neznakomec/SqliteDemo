@@ -131,6 +131,45 @@ namespace SqliteDemo.Persistence
             return Task.CompletedTask;
         }
 
+        public Task StoreAsync(PersistedStrategy strategy)
+        {
+            if (!IsSyncEnabled)
+            {
+                return Task.CompletedTask;
+            }
+            var StoreAsyncDelegate = delegate (DatabaseContext ctx)
+            {
+                if (strategy.AccountId == 0 && strategy.Account == null)
+                {
+                    Console.WriteLine("Unable to store strategy \"" + strategy.Name + "\" because it is not linked to an account");
+                }
+                int id = strategy.Id;
+                if (id != 0)
+                {
+                    PersistedStrategy persistedStrategy = ctx.Strategies.FirstOrDefault((PersistedStrategy _) => _.Id == id);
+                    if (persistedStrategy != null)
+                    {
+                        persistedStrategy.AccountId = strategy.AccountId;
+                        persistedStrategy.Name = strategy.Name;
+                        persistedStrategy.AssetPath = strategy.AssetPath;
+                        persistedStrategy.Comment = strategy.Comment;
+                    }
+                    else
+                    {
+                        ctx.Strategies.Add(strategy);
+                    }
+                }
+                else
+                {
+                    ctx.Strategies.Add(strategy);
+                }
+                ctx.SaveChanges();
+            };
+            StoreAsyncDelegate(_databaseContext);
+            return Task.CompletedTask;
+
+        }
+
         private void EnsureDirectoryExists(string dbDirectoryPath)
         {
             if (!Directory.Exists(dbDirectoryPath))

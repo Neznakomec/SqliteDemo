@@ -14,6 +14,8 @@ namespace SqliteDemo.Persistence
 
         public DbSet<PersistedFill> Fills { get; set; }
 
+        public DbSet<PersistedStrategy> Strategies { get; set; }
+
         public DatabaseContext(DbConnection connection, bool ownsConnection = true)
         {
             _connection = connection;
