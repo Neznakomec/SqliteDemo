@@ -10,8 +10,8 @@ namespace SqliteDemo.Persistence.Entities
     public enum PersistedFillType
     {
         Undefined = 0,
-        External = 69,
-        Manual = 77,
-        Adjustment = 65
+        External = 1,
+        Manual = 2,
+        Adjustment = 3
     }
 }

@@ -9,7 +9,7 @@ namespace SqliteDemo.Persistence.Entities
     public enum PersistedAccountType
     {
         Undefined = 0,
-        Virtual = 86,
-        Trade = 84
+        Virtual = 1,
+        Trade = 2
     }
 }
