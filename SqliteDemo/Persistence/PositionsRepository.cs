@@ -170,6 +170,32 @@ namespace SqliteDemo.Persistence
 
         }
 
+        public Task<PersistedAccount[]> LoadAccountHierarchyAsync()
+        {
+            var LoadAccountHierarchyAsync = delegate (DatabaseContext ctx)
+            {
+                PersistedAccount[] accounts = ctx.Accounts.AsNoTracking().ToArray();
+                foreach (PersistedAccount account in accounts)
+                {
+                    List<PersistedFill> fillsForAccount = ctx.Fills.Where((PersistedFill _) => _.AccountId == account.Id).ToList();
+                    account.Fills = fillsForAccount;
+                    foreach (PersistedFill fill in fillsForAccount)
+                    {
+                        fill.Account = account;
+                    }
+                    List<PersistedStrategy> strategiesForAccount = ctx.Strategies.Where((PersistedStrategy _) => _.AccountId == account.Id).ToList();
+                    account.Strategies = strategiesForAccount;
+                    foreach (PersistedStrategy strategy in strategiesForAccount)
+                    {
+                        strategy.Account = account;
+                    }
+                }
+                return accounts;
+            };
+            var result = LoadAccountHierarchyAsync(_databaseContext);
+            return Task.FromResult(result);
+        }
+
         private void EnsureDirectoryExists(string dbDirectoryPath)
         {
             if (!Directory.Exists(dbDirectoryPath))

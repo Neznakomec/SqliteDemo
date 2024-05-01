@@ -1,4 +1,5 @@
 ﻿using SqliteDemo.Persistence;
+using SqliteDemo.Persistence.Entities;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -65,6 +66,16 @@ namespace SqliteDemo
                 Quantity = 10,
                 Type = Persistence.Entities.PersistedFillType.Manual,
             });
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var p = new PositionsRepository();
+            p.InitializeAsync();
+
+            PersistedAccount[] accounts = p.LoadAccountHierarchyAsync().Result;
+            var account1 = accounts.Where(account => account.Id == 1).First();
+            MessageBox.Show($"у счета(ID={account1.Id}) {account1.Fills.Count} сделки и {account1.Strategies.Count} стратегий");
         }
     }
 }
