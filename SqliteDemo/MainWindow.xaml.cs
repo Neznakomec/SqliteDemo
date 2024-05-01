@@ -50,16 +50,21 @@ namespace SqliteDemo
                 AssetPath = "FORTS/Futures/Si",
 
             });
-            //p.StoreAsync(new Persistence.Entities.PersistedFill()
-            //{
-            //    AccountId = 1,
 
-            //    ExchangeId = "SampleDealId like 12345678",
-            //    ExchangeOrderId = "SampleOrderId like 87654321",
-            //    AssetPath = "FORTS/Futures/Si",
-            //    InstrumentPath = "SiH4",
-            //    StrategyName = "default",
-            //});
+            // Пример: добавить сделку
+            p.StoreAsync(new Persistence.Entities.PersistedFill()
+            {
+                AccountId = 1,
+                Id = 123,
+
+                ExchangeId = "SampleDealId like 12345678",
+                ExchangeOrderId = "SampleOrderId like 87654321",
+                AssetPath = "FORTS/Futures/Si",
+                InstrumentPath = "SiH4",
+                StrategyName = "default",
+                Quantity = 10,
+                Type = Persistence.Entities.PersistedFillType.Manual,
+            });
         }
     }
 }
