@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SqliteDemo.Persistence.Entities;
 using System.Data;
 using System.Data.Common;
@@ -34,6 +35,7 @@ namespace SqliteDemo.Persistence
             if (_connection != null && _connection.State == ConnectionState.Open)
             {
                 options.UseSqlite(_connection);
+                options.LogTo(message => System.Diagnostics.Debug.WriteLine(message));
             }
             else
             {

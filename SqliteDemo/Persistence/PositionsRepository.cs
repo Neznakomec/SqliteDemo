@@ -39,6 +39,7 @@ namespace SqliteDemo.Persistence
             catch (Exception exception)
             {
                 Console.WriteLine("InitializeAsync" + exception + "Failed while creating PositionsRepository");
+                throw exception;
             }
             return Task.CompletedTask;
         }

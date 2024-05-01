@@ -22,7 +22,7 @@ namespace SqliteDemo.Persistence.Entities
 
         public string InstrumentPath { get; set; }
 
-        public string? StrategyName { get; set; }
+        public string StrategyName { get; set; }
 
         public decimal Price { get; set; }
 

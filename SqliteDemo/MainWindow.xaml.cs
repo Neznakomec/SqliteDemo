@@ -44,6 +44,11 @@ namespace SqliteDemo
                 Name = "My First Account FN12345",
                 Type = Persistence.Entities.PersistedAccountType.Trade,
             });
+            p.StoreAsync(new Persistence.Entities.PersistedAccount()
+            {
+                Name = "New account created at " + DateTime.Now.ToString("HH:mm"),
+                Type = Persistence.Entities.PersistedAccountType.Trade,
+            });
         }
     }
 }
